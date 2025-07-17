@@ -1,9 +1,39 @@
+"use client"; 
 import Image from "next/image";
+import useSWR from 'swr'
+
+const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 export default function Home() {
+
+  const { data, error, isLoading } = useSWR(`http://127.0.0.1:8001/api/hello`, fetcher)
+
+  if (error) return <div>failed to load</div>
+  if (isLoading) return <div>loading...</div>
+  
+  // async function getDjangoAPIData() {
+  //   const responseData = await data.json();
+  //   console.log(responseData);
+  //   setData(responseData);
+  // }
+
+  // async function handleClick() {
+  //   await getDjangoAPIData()
+  // }
+
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+        {/* <button onClick={handleClick} className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]">
+          Lookup Data
+        </button> */}
+
+        <div>
+          <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-sm">
+            <code>{JSON.stringify(data)}</code>
+          </pre>
+        </div>
+
         <Image
           className="dark:invert"
           src="/next.svg"
