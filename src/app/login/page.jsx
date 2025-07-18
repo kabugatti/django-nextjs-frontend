@@ -1,23 +1,20 @@
 "use client"
 
-const LOGIN_URL = "http://127.0.0.1:8001/api/token/pair"
+// const LOGIN_URL = "http://127.0.0.1:8001/api/token/pair"
+const LOGIN_URL = "/api/login/"
 
 export default function Page() {
 
     async function handleSubmit(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
-        const username = formData.get('username');
-        const password = formData.get('password');
+        const objectFromForm = Object.fromEntries(formData)
+        const jsonData = JSON.stringify(objectFromForm)
         
-        // Here you would typically send the data to your backend for authentication
-        console.log("Username:", username, "Password:", password);
-
-        const jsonData = "";
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+            body: jsonData,
         };
 
         const response = await fetch(LOGIN_URL, requestOptions);
