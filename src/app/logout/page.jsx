@@ -1,8 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 const LOGOUT_URL = "/api/logout/";
 
 export default function Page() {
+  const router = useRouter();
+
   async function handleClick(event) {
     event.preventDefault();
 
@@ -16,6 +20,7 @@ export default function Page() {
 
     if (response.ok) {
       console.log("Logout successful:", response.statusText);
+      router.push("/login");
     } else {
       console.error("Logout failed:", response.statusText);
     }
@@ -23,7 +28,9 @@ export default function Page() {
 
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <h1 className="text-2xl font-bold row-start-1">Are you sure you want to log out?</h1>
+      <h1 className="text-2xl font-bold row-start-1">
+        Are you sure you want to log out?
+      </h1>
 
       <button
         onClick={handleClick}
