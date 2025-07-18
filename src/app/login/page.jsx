@@ -1,11 +1,13 @@
 "use client";
 
+import { useAuth } from "@/components/authProvider";
 import { useRouter } from "next/navigation";
 
 const LOGIN_URL = "/api/login/";
 
 export default function Page() {
-  const router = useRouter();
+    const auth = useAuth();
+    const router = useRouter();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -24,8 +26,9 @@ export default function Page() {
     if (response.ok) {
       const data = await response.json();
       console.log("Login successful:", data);
+      auth.login(data.username);
       // Handle successful login (e.g., redirect, store token, etc.)
-      router.push("/waitlists");
+      router.push("/");
     } else {
       console.error("Login failed:", response.statusText);
       // Handle login failure (e.g., show error message)
